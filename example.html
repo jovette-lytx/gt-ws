@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>iframe</title>
+</head>
+<body>
+    <button id="sessionInfo">Show session info</button>
+</body>
+<script>
+    var getSession = function () {
+        return new Promise((res, rej) => {
+            window.addEventListener("message", function sessionMessenger (e) {
+                if (e.data) {
+                    try {
+                        let session = JSON.parse(e.data);
+
+                        if (session.sessionId) {
+                            res(session);
+                            window.removeEventListener("message", sessionMessenger, false);
+                        }
+                    } catch (e) {}
+                }
+            }, false);
+
+            if (window.top !== window) {
+                window.top.postMessage("getSessionInfo", "*");
+
+                // set timout on waiting session information from main window
+                setTimeout(() => { rej(new Error("Timeout")); }, 5000);
+                return;
+            }
+
+            rej(new Error("Page not inside iframe"));
+        });
+    };
+
+    document.getElementById("sessionInfo").addEventListener("click", () => {
+        getSession().then(session => {
+            alert(JSON.stringify(session));
+        });
+    }, false);
+</script>
+</html>
