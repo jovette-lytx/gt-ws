@@ -1,0 +1,22 @@
+<div class="video-player">
+    <div class="video-player__wrapper">
+        <video style="display: none;" id="video-video" src="" class="video-player__video">
+
+        </video>
+        <div style="display: none;" id="video-play-button" class="video-player__play-button">
+            <div class="video-player__play-icon"></div>
+        </div>
+        <div id="video-placeholder" class="video-player__placeholder">
+            <span class="video-player__placeholder-title">
+                Video isn't available for this period
+            </span>
+        </div>
+    </div>
+    <div class="video-player__control">
+        <div class="video-player__track-control">
+            <input id="video-range" min="0" max="100" step="0.1" class="video-player__range" type="range">
+            <div  id="video-track" class="video-player__track"></div>
+            <div id="video-tracker" class="video-player__tracker"></div>
+        </div>
+    </div>
+</div>

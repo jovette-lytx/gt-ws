@@ -1,0 +1,29 @@
+#frame-emulator {
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 8px;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 450px;
+    position: absolute;
+}
+
+#main-container {
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+#main-controls {
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 500px;
+    height: 100%;
+}
+
+#menu-state {
+    height: 160px;
+}

@@ -1,0 +1,14 @@
+.video-downloader-icon {
+    position: relative;
+    top: 10px;
+    fill: #fff;
+}
+
+.video-downloader.disabled .video-downloader-icon {
+    fill: #555;
+}
+
+.video-downloader.disabled:hover {
+    background: none !important;
+    cursor: auto;
+}

@@ -1,0 +1,10 @@
+.login-dialog {
+    border: none;
+    width: 80%;
+}
+
+.login-dialog__warn-wrapper {
+    padding: 10px;
+    border-radius: 7px;
+    font-size: 19px;
+}

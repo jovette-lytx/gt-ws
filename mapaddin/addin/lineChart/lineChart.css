@@ -1,0 +1,48 @@
+.line-chart__axes {
+    stroke: #999;
+    stroke-width: 1px;
+}
+
+.line-chart__y-line {
+    stroke-width: 1px;
+    stroke: #ccc;
+}
+
+.line-chart__svg {
+    width: 100%;
+    height: 100%;
+}
+
+.line-chart__line {
+    stroke: #ff6384;
+    stroke-width: 3px;
+    fill: none;
+}
+
+.line-chart__x-scale-text,
+.line-chart__y-scale-text {
+    fill: #999;
+    font-size: 14px;
+}
+
+.line-chart__x-scale-text--left {
+    text-anchor: start;
+}
+
+.line-chart__x-scale-text--right {
+    text-anchor: end;
+}
+
+.line-chart__main-group {
+    transform: scaleY(0.96) translateY(6px);
+}
+
+.line-chart__track {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #36a2eb;
+}
+
+.line-chart__g-track {
+    will-change: transform;
+}

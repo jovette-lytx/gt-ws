@@ -1,0 +1,23 @@
+.video-layout__speed {
+    height: 300px;
+    width: 98%;
+    margin: 20px auto;
+}
+
+.video-layout__device-container {
+    height: 100%;
+    position: relative;
+    width: 180px;
+}
+
+.video-layout__device {
+    display: block;
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    left: 5px;
+}
+
+.video-layout__device.video-layout__device--hidden {
+    display: none;
+}

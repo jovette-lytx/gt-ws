@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dist/addin.css">
+    <script>
+        window.geotab = { addin: {} };
+    </script>
+</head>
+<body>
+    <div id="main-controls">
+        <fieldset>
+            <legend>Page</legend>
+            <div>
+                <textarea type="text" id="page-state" rows="7"></textarea>
+            </div>
+            <div>
+                <button id="state-update">Update</button>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Action list</legend>
+            <div>
+                <select style="display: block;" id="menu_type">
+                    <option value="zoneMenu">Zone</option>
+                    <option value="vehicleMenu">Device</option>
+                    <option value="routeMenu">Route</option>
+                    <option value="mapMenu">Map</option>
+                    <option value="historyTripsMenu">History trip</option>
+                </select>
+            </div>
+            <div>
+                <textarea id="menu-state"></textarea>
+            </div>
+            <div>
+                <button id="trigger-menu">Trigger menu</button>
+            </div>
+            <div id="menu-results">
+                
+            </div>
+        </fieldset>
+    </div>
+    <div id="frame-emulator">
+        <div id="main-container"></div>
+    </div>
+</body>
+<script src="dist/addin.js"></script>
+<script src="dist/framework.js"></script>
+</html>

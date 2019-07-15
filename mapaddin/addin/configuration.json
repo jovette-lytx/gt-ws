@@ -1,0 +1,12 @@
+{
+    "name": "VideoAddin",
+    "supportEmail": "vladimirdashukevich@geotab.com",
+    "version": "1.0",
+    "items": [{
+        "page": "tripsHistory",
+        "mapScript": {
+            "src": "/addin.js",
+            "style": "/addin.css"
+        }
+    }]
+}

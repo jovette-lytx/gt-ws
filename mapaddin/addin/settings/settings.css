@@ -1,0 +1,18 @@
+.video-settings__available-videos-icon {
+    fill: #FFF;
+    position: relative;
+    top: 10px;
+}
+
+.video-settings__available-videos--active .video-settings__available-videos-icon {
+    fill: #6610f2;
+}
+
+.video-settings__available-videos--disable:hover {
+    background: none !important;
+    cursor: auto;
+}
+
+.video-settings__available-videos--disable .video-settings__available-videos-icon {
+    fill: #555;
+}
