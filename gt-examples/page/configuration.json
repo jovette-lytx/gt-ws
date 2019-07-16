@@ -1,0 +1,12 @@
+{
+    "name": "Page",
+    "supportEmail": "dashukevichvova@gmail.com",
+    "version": "1.0",
+    "items": [{
+        "page": "map",
+        "mapScript": {
+            "src": "/page/addin.js",
+            "style": "/page/addin.css"
+        }
+    }]
+}
