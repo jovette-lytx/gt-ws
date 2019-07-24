@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Lytx GeoTab AddIn</title>
     <script>
-        var baseUrl = "";
         geotab.addin.lytxVideoAddIn = function(api, state) {
             return {
                 initialize: function(api, state, callback) {
@@ -18,7 +17,6 @@
                         if (e.data === "getSessionInfo") {
                             api.getSession(function(session) {
                                 session["baseUrl"] = window.location.hostname;
-                                baseUrl = window.location.hostname;
                                 frame.contentWindow.postMessage(JSON.stringify(session), "*");
                             });
                         }
@@ -27,13 +25,12 @@
                 blur: function(api, state) {}
             }
         };
-        console.log("baseUrl = " + baseUrl);
     </script>
 
 </head>
 
 <body>
-    <input type="hidden" id="build" value="20190724_1638">
+    <input type="hidden" id="build" value="20190724_1639">
     <div style="height:100%; width:100%">
         <iframe id="addinFrame" style="height:100%; width:100%" src="https://lytx-geotab-addinservice.int.ph.lytx.com/authorize.html"></iframe>
     </div>
