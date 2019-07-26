@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -15,8 +14,8 @@
                     let frame = document.getElementById("addinFrame");
                     window.addEventListener("message", e => {
                         if (e.data === "getSessionInfo") {
-                            api.getSession(function(session) {
-                                session["baseUrl"] = window.location.hostname;
+                            api.getSession(function (session) {
+                                session["geoTabBaseUrl"] = window.location.hostname;
                                 frame.contentWindow.postMessage(JSON.stringify(session), "*");
                             });
                         }
@@ -28,12 +27,10 @@
     </script>
 
 </head>
-
 <body>
-    <input type="hidden" id="build" value="20190716_1133">
     <div style="height:100%; width:100%">
-        <iframe id="addinFrame" style="height:100%; width:100%" src="https://lytx-geotab-addinservice.stg.ph.lytx.com/authorize.html"></iframe>
+        <iframe id="addinFrame" style="height:100%; width:100%" 
+                src="@@@lytxBaseUrl@@@/authorize.html" ></iframe>
     </div>
 </body>
-
 </html>

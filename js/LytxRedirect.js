@@ -1,6 +1,6 @@
 ﻿function postSessionRequest() {
     return new Promise((res, rej) => {
-        window.addEventListener("message", function sessionMessenger(e) {
+        window.addEventListener("message", function sessionMessenger (e) {
             if (e.data) {
                 try {
                     let session = JSON.parse(e.data);
@@ -33,7 +33,7 @@ function validateTargetOrigin() {
         } else {
             redirectOnStatusCode(this.status, "Not GeoTab Host Origin");
         }
-    } catch (e) {
+    } catch(e) {
         redirectOnStatusCode(this.status, e);
     }
 }
@@ -45,12 +45,12 @@ async function getSession() {
         });
 
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
-        sessionObject.database, sessionObject.baseUrl);
+        sessionObject.database, sessionObject.geoTabBaseUrl);
 }
 
-function getAuthorization(sessionId, userName, database, baseUrl) {
+function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
     let request = new XMLHttpRequest();
-    request.onload = function() {
+    request.onload = function () {
         if (request.readyState === 4) {
             if (this.status === 200) {
                 let response = JSON.parse(this.response);
@@ -67,7 +67,7 @@ function getAuthorization(sessionId, userName, database, baseUrl) {
                 let response;
                 try {
                     response = JSON.parse(this.response);
-                } catch (err) {
+                } catch(err) {
                     response = "Unable to parse response. " + err;
                 }
                 redirectOnStatusCode(this.status, response.error);
@@ -76,7 +76,7 @@ function getAuthorization(sessionId, userName, database, baseUrl) {
     };
     request.open("GET", "/api/authorize?sessionId=" + sessionId +
         "&username=" + userName + "&databaseName=" + database +
-        "&baseUrl=" + baseUrl, true);
+        "&geoTabBaseUrl=" + geoTabBaseUrl, true);
     request.send();
 }
 
@@ -95,7 +95,7 @@ function redirectOnStatusCode(statusCode, error) {
         if (errorMessage.includes("Lytx")) {
             window.location = "/errors/lytx500Error.html";
         } else if (errorMessage.includes("GeoTab")) {
-            window.location = "/errors/geoTab500Error.html";
+            window.location = "/errors/geotab500Error.html";
         } else {
             window.location = "/errors/loginError.html";
         }
