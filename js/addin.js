@@ -19,5 +19,5 @@ geotab.addin.request = (elt, service) => {
 
     // subscribe to any move events over map.
     // e parameter looks like: {"x":485,"y":205}
-    service.events.attach('move', (e) => { template('move', e); });
+    //service.events.attach('move', (e) => { template('move', e); });
 };
