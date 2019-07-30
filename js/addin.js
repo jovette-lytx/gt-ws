@@ -1,6 +1,43 @@
 geotab.addin.request = (elt, service) => {
     
-    window.location = "https://lytx-geotab-addinservice.stg.ph.lytx.com/main.html";
+    elt.innerHTML = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+            <title>Lytx GeoTab AddIn</title>
+            <script>
+                geotab.addin.lytxVideoAddIn = function(api, state) {
+                    return {
+                        initialize: function(api, state, callback) {
+                            callback();
+                        },
+                        focus: function(api, state) {
+                            let frame = document.getElementById("addinFrame");
+                            window.addEventListener("message", e => {
+                                if (e.data === "getSessionInfo") {
+                                    api.getSession(function (session) {
+                                        session["geoTabBaseUrl"] = window.location.hostname;
+                                        frame.contentWindow.postMessage(JSON.stringify(session), "*");
+                                    });
+                                }
+                            }, false);
+                        },
+                        blur: function(api, state) {
+                        }
+                    }
+                };
+            </script>
+
+        </head>
+        <body>
+            <div style="height:100%; width:100%">
+                <iframe id="addinFrame" style="height:100%; width:100%" 
+                        src="@@@lytxBaseUrl@@@/authorize.html" ></iframe>
+            </div>
+        </body>
+        </html>`
     
     /****
     let template = (event, data) => {
