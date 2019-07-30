@@ -1,6 +1,6 @@
 geotab.addin.request = (elt, service) => {
     
-    window.location = "https://lytx-geotab-addinservice.stg.ph.lytx.com/api/connect";
+    window.location = "https://lytx-geotab-addinservice.stg.ph.lytx.com/main.html";
     
     /****
     let template = (event, data) => {
