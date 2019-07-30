@@ -28,7 +28,7 @@ geotab.addin.request = (elt, service) => {
                     src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
         </div>`
 
-    /****
+
     let template = (event, data) => {
         var div = document.createElement("DIV");
         div.innerHTML = `<strong>Event:</strong> ${ event }, <strong>data</strong>: ${ JSON.stringify(data) }`;
@@ -50,5 +50,5 @@ geotab.addin.request = (elt, service) => {
     // subscribe to any move events over map.
     // e parameter looks like: {"x":485,"y":205}
     //service.events.attach('move', (e) => { template('move', e); });
-    ****/
+
 };
