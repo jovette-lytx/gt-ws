@@ -34,7 +34,7 @@ geotab.addin.request = (elt, service) => {
         <body>
             <div style="height:100%; width:100%">
                 <iframe id="addinFrame" style="height:100%; width:100%" 
-                        src="@@@lytxBaseUrl@@@/authorize.html" ></iframe>
+                        src="https://lytx-geotab-addinservice.stg.ph.lytx.com/authorize.html" ></iframe>
             </div>
         </body>
         </html>`
