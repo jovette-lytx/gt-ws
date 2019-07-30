@@ -1,6 +1,28 @@
 geotab.addin.request = (elt, service) => {
     
     elt.innerHTML = `
+        <script>
+            geotab.addin.lytxVideoAddIn = function(api, state) {
+                return {
+                    initialize: function(api, state, callback) {
+                        callback();
+                    },
+                    focus: function(api, state) {
+                        let frame = document.getElementById("addinFrame");
+                        window.addEventListener("message", e => {
+                            if (e.data === "getSessionInfo") {
+                                api.getSession(function (session) {
+                                    session["geoTabBaseUrl"] = window.location.hostname;
+                                    frame.contentWindow.postMessage(JSON.stringify(session), "*");
+                                });
+                            }
+                        }, false);
+                    },
+                    blur: function(api, state) {
+                    }
+                }
+            };
+        </script>
         <div style="height:1000px; width:100%">
             <iframe id="addinFrame" style="height:100%; width:100%" 
                     src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
