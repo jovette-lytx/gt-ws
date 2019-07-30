@@ -28,6 +28,10 @@ geotab.addin.request = (elt, service) => {
                     src="https://lytx-geotab-addinservice.stg.ph.lytx.com/authorize.html" ></iframe>
         </div>`
     
+    service.api.getSession().then((sessionInfo) => {
+            console.log(sessionInfo)
+    });
+
     /****
     let template = (event, data) => {
         var div = document.createElement("DIV");
