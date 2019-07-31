@@ -16,10 +16,8 @@
 }
 
 async function getSession() {
-    let sessionObject =
-        await postSessionRequest().then(session => {
-            return session;
-        });
+    let request = geotab.addin.request;
+    let sessionObject;
 
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
         sessionObject.database, sessionObject.geoTabBaseUrl);
