@@ -25,6 +25,7 @@ geotab.addin.request = (elt, service) => {
                     }
                 }
             };
+            console.log("Test console call in script section");
         </script>
 
         <div style="height:450px; width:100%">
@@ -41,7 +42,6 @@ geotab.addin.request = (elt, service) => {
 
     service.api.getSession().then((sessionInfo) => {
         console.log(sessionInfo);
-        return sessionInfo;
     });
 
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
