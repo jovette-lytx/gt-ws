@@ -23,7 +23,7 @@ geotab.addin.request = (elt, service) => {
                 }
             };
         </script>
-        <div style="height:1000px; width:100%">
+        <div style="height:100%; width:100%">
             <iframe id="addinFrame" style="height:100%; width:100%" 
                     src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
         </div>`
