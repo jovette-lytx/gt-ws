@@ -12,7 +12,7 @@
 }
 
 async function getSession() {
-    let sessionObject = getSession();
+    let sessionObject = getGeoTabSessionDetails();
 
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
         sessionObject.database, sessionObject.domain);
