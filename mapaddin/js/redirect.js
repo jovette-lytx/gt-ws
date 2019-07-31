@@ -1,8 +1,51 @@
-﻿async function getSession() {
-    let sessionObject = getGeoTabSessionDetails();
+﻿function postSessionRequest() {
+    return new Promise((res, rej) => {
+        window.addEventListener("message", function sessionMessenger (e) {
+            if (e.data) {
+                try {
+                    let session = JSON.parse(e.data);
+
+                    if (session.sessionId) {
+                        res(session);
+                        window.removeEventListener("message", sessionMessenger, false);
+                    }
+                } catch (e) {}
+            }
+        }, false);
+
+        if (window.top !== window) {
+            window.top.postMessage("getSessionInfo", validateTargetOrigin());
+
+            // set timeout on waiting session information from main window
+            setTimeout(() => { rej(new Error("Timeout")); }, 5000);
+            return;
+        }
+
+        rej(new Error("Page not inside iframe"));
+    });
+}
+
+function validateTargetOrigin() {
+    try {
+        let hostUrl = document.referrer;
+        if (hostUrl.includes("geotab.com")) {
+            return hostUrl;
+        } else {
+            redirectOnStatusCode(this.status, "Not GeoTab Host Origin");
+        }
+    } catch(e) {
+        redirectOnStatusCode(this.status, e);
+    }
+}
+
+async function getSession() {
+    let sessionObject =
+        await postSessionRequest().then(session => {
+            return session;
+        });
 
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
-        sessionObject.database, sessionObject.domain);
+        sessionObject.database, sessionObject.geoTabBaseUrl);
 }
 
 function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
@@ -16,7 +59,7 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
 
                 for (name in response) {
                     if (name !== 'action') {
-                        attributes[name] = response[name]; 
+                        attributes[name] = response[name];
                     }
                 }
                 redirectToLytxPlatformPage(response.action, attributes);
