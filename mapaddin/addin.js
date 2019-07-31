@@ -14,6 +14,8 @@ geotab.addin.request = (elt, service) => {
 
     service.api.getSession().then((sessionInfo) => {
         sessionDetails = sessionInfo;
+        service.localStorage.set("sessionDetails", sessionDetails)
+            .then(() => console.log("sessionInfo saved"));
         console.log(sessionInfo);
     });
 
@@ -32,10 +34,6 @@ geotab.addin.request = (elt, service) => {
     // subscribe to any move events over map.
     // e parameter looks like: {"x":485,"y":205}
     //service.events.attach('move', (e) => { template('move', e); });
-    
-    document.onload = () => {
-        service.localStorage.set("sessionDetails", sessionDetails);
-    }
-    
+
 };
 
