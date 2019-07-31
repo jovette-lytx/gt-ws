@@ -1,33 +1,32 @@
+geotab.addin.lytxVideoAddIn = function(api, state) {
+    return {
+        initialize: function(api, state, callback) {
+            console.log("Initializing Lytx Video Add-In");
+            callback();
+        },
+        focus: function(api, state) {
+            console.log("Lytx Video Add-In in focus");
+            let frame = document.getElementById("addinFrame");
+            window.addEventListener("message", e => {
+                if (e.data === "getSessionInfo") {
+                    api.getSession(function (session) {
+                        session["geoTabBaseUrl"] = window.location.hostname;
+                        frame.contentWindow.postMessage(JSON.stringify(session), "*");
+                    });
+                }
+            }, false);
+        },
+        blur: function(api, state) {
+            console.log("Lytx Video Add-In blur");
+        }
+    }
+};
+console.log("Test console call in script section");
+
+
 geotab.addin.request = (elt, service) => {
     
     elt.innerHTML = `
-        <script>
-            geotab.addin.lytxVideoAddIn = function(api, state) {
-                return {
-                    initialize: function(api, state, callback) {
-                        console.log("Initializing Lytx Video Add-In");
-                        callback();
-                    },
-                    focus: function(api, state) {
-                        console.log("Lytx Video Add-In in focus");
-                        let frame = document.getElementById("addinFrame");
-                        window.addEventListener("message", e => {
-                            if (e.data === "getSessionInfo") {
-                                api.getSession(function (session) {
-                                    session["geoTabBaseUrl"] = window.location.hostname;
-                                    frame.contentWindow.postMessage(JSON.stringify(session), "*");
-                                });
-                            }
-                        }, false);
-                    },
-                    blur: function(api, state) {
-                        console.log("Lytx Video Add-In blur");
-                    }
-                }
-            };
-            console.log("Test console call in script section");
-        </script>
-
         <div style="height:450px; width:100%">
             <iframe id="addinFrame" style="height:100%; width:100%" 
                     src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
