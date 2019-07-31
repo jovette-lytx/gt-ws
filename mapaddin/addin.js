@@ -13,6 +13,16 @@ geotab.addin.request = (elt, service) => {
         elt.appendChild(div);
     }
 
+    let frame = document.getElementById("addinFrame");
+    window.addEventListener("message", e => {
+        if (e.data === "getSessionInfo") {
+            api.getSession(function (session) {
+                session["geoTabBaseUrl"] = window.location.hostname;
+                frame.contentWindow.postMessage(JSON.stringify(session), "*");
+            });
+        }
+    }, false);
+
     service.api.getSession().then((sessionInfo) => {
         console.log(sessionInfo);
     });
