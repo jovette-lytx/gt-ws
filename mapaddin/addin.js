@@ -6,16 +6,6 @@ geotab.addin.request = (elt, service) => {
                     src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
         </div>`;
 
-    let frame = document.getElementById("addinFrame");
-    window.addEventListener("message", e => {
-        if (e.data === "getSessionInfo") {
-            api.getSession(function (session) {
-                session["geoTabBaseUrl"] = window.location.hostname;
-                frame.contentWindow.postMessage(JSON.stringify(session), "*");
-            });
-        }
-    }, false);
-
     let template = (event, data) => {
         var div = document.createElement("DIV");
         div.innerHTML = `<strong>Event:</strong> ${ event }, <strong>data</strong>: ${ JSON.stringify(data) }`;
@@ -23,6 +13,7 @@ geotab.addin.request = (elt, service) => {
     }    
 
     service.api.getSession().then((sessionInfo) => {
+        sessionDetails = sessionInfo;
         console.log(sessionInfo);
     });
 
@@ -41,6 +32,10 @@ geotab.addin.request = (elt, service) => {
     // subscribe to any move events over map.
     // e parameter looks like: {"x":485,"y":205}
     //service.events.attach('move', (e) => { template('move', e); });
+    
+    document.onload = () => {
+        service.localStorage.set("sessionDetails", sessionDetails);
+    }
     
 };
 
