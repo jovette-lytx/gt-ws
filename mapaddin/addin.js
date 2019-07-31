@@ -35,7 +35,7 @@ geotab.addin.request = (elt, service) => {
         elt.appendChild(div);
     }
 
-    let getSession = () => {
+    let getGeoTabSessionDetails = () => {
         service.api.getSession().then((sessionInfo) => {
             console.log(sessionInfo);
             return sessionInfo;

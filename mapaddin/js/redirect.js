@@ -1,17 +1,4 @@
-﻿function validateTargetOrigin() {
-    try {
-        let hostUrl = document.referrer;
-        if (hostUrl.includes("geotab.com")) {
-            return hostUrl;
-        } else {
-            redirectOnStatusCode(this.status, "Not GeoTab Host Origin");
-        }
-    } catch(e) {
-        redirectOnStatusCode(this.status, e);
-    }
-}
-
-async function getSession() {
+﻿async function getSession() {
     let sessionObject = getGeoTabSessionDetails();
 
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
