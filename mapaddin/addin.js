@@ -39,7 +39,7 @@ geotab.addin.request = (elt, service) => {
         service.api.getSession().then((sessionInfo) => {
             console.log(sessionInfo);
             return sessionInfo;
-    });
+    })};
 
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
