@@ -12,11 +12,7 @@
 }
 
 async function getSession() {
-    let sessionObject =
-    service.api.getSession().then((sessionInfo) => {
-        console.log(sessionInfo);
-        return sessionInfo;
-    });
+    let sessionObject = getSession();
 
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
         sessionObject.database, sessionObject.domain);
@@ -33,7 +29,7 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
 
                 for (name in response) {
                     if (name !== 'action') {
-                        attributes[name] = response[name];
+                        attributes[name] = response[name]; 
                     }
                 }
                 redirectToLytxPlatformPage(response.action, attributes);
