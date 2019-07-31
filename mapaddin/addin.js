@@ -29,14 +29,7 @@ geotab.addin.request = (elt, service) => {
         <div style="height:450px; width:100%">
             <iframe id="addinFrame" style="height:100%; width:100%" 
                     src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
-        </div>`
-
-
-    let template = (event, data) => {
-        var div = document.createElement("DIV");
-        div.innerHTML = `<strong>Event:</strong> ${ event }, <strong>data</strong>: ${ JSON.stringify(data) }`;
-        elt.appendChild(div);
-    }
+        </div>`;
 
     let frame = document.getElementById("addinFrame");
     window.addEventListener("message", e => {
@@ -47,6 +40,12 @@ geotab.addin.request = (elt, service) => {
             });
         }
     }, false);
+
+    let template = (event, data) => {
+        var div = document.createElement("DIV");
+        div.innerHTML = `<strong>Event:</strong> ${ event }, <strong>data</strong>: ${ JSON.stringify(data) }`;
+        elt.appendChild(div);
+    }    
 
     service.api.getSession().then((sessionInfo) => {
         console.log(sessionInfo);
