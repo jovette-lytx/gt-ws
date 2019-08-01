@@ -8,6 +8,11 @@ geotab.addin.request = (elt, service) => {
     //     sessionDetails = sessionInfo;
     // });
 
+    elt.innerHTML = `
+        <div style="height:150%; width:100%">
+            <iframe id="addinFrame" style="height:100%; width:100%" src="" >Empty iframe</iframe>
+        </div>`;
+
     // let sessionDetails;
     // service.localStorage.get("sessionDetails").then(val => sessionDetails = val);
     // elt.innerHTML = "sessionId = " + sessionDetails.sessionId;
@@ -22,11 +27,9 @@ geotab.addin.request = (elt, service) => {
     let getSessionDetails = (event, data) => {
         service.api.getSession().then((sessionInfo) => {
             service.localStorage.set("sessionDetails", sessionInfo)
-                .then(() => console.log("sessionInfo saved"));
-            console.log(sessionInfo);
-            sessionDetails = sessionInfo;
-            getAuthorization(sessionDetails.sessionId, sessionDetails.userName,
-                sessionDetails.database, sessionDetails.domain);
+                .then(() => console.log(sessionInfo));
+            getAuthorization(sessionInfo.sessionId, sessionInfo.userName,
+                sessionInfo.database, sessionInfo.domain);
         });
     }
 
@@ -172,6 +175,7 @@ function redirectOnStatusCode(statusCode, error) {
 }
 
 function redirectToLytxPlatformPage(action, attributes) {
+    console.log("In redirectToLytxPlatformPage()");
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', action);
