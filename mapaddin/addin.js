@@ -1,16 +1,4 @@
 geotab.addin.request = (elt, service) => {
-    
-    elt.innerHTML = `
-        <div style="height:450px; width:100%">
-            <iframe id="addinFrame" style="height:100%; width:100%" 
-                    src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
-        </div>`;
-
-    let template = (event, data) => {
-        var div = document.createElement("DIV");
-        div.innerHTML = `<strong>Event:</strong> ${ event }, <strong>data</strong>: ${ JSON.stringify(data) }`;
-        elt.appendChild(div);
-    }    
 
     service.api.getSession().then((sessionInfo) => {
         sessionDetails = sessionInfo;
@@ -18,6 +6,18 @@ geotab.addin.request = (elt, service) => {
             .then(() => console.log("sessionInfo saved"));
         console.log(sessionInfo);
     });
+
+    elt.innerHTML = `
+        <div style="height:450px; width:100%">
+            <iframe id="addinFrame" style="height:100%; width:100%" 
+                    src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>` + sessionInfo.sessionId + 
+                    `</div>`;
+
+    let template = (event, data) => {
+        var div = document.createElement("DIV");
+        div.innerHTML = `<strong>Event:</strong> ${ event }, <strong>data</strong>: ${ JSON.stringify(data) }`;
+        elt.appendChild(div);
+    }    
 
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
