@@ -1,10 +1,10 @@
 geotab.addin.request = (elt, service) => {
 
-    service.api.getSession().then((sessionInfo) => {
-        service.localStorage.set("sessionDetails", sessionInfo)
-            .then(() => console.log("sessionInfo saved"));
-        console.log(sessionInfo);
-    });
+    // service.api.getSession().then((sessionInfo) => {
+    //     service.localStorage.set("sessionDetails", sessionInfo)
+    //         .then(() => console.log("sessionInfo saved"));
+    //     console.log(sessionInfo);
+    // });
 
     // let sessionDetails;
     // service.localStorage.get("sessionDetails").then(val => sessionDetails = val);
@@ -17,6 +17,15 @@ geotab.addin.request = (elt, service) => {
         elt.appendChild(div);
     }    
 
+    let getSessionDetails = (event, data) => {
+        service.api.getSession().then((sessionInfo) => {
+            service.localStorage.set("sessionDetails", sessionInfo)
+                .then(() => console.log("sessionInfo saved"));
+            console.log(sessionInfo);
+            sessionDetails = sessionInfo;
+        });
+    }
+
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
     service.events.attach('over', (e) => { template('over', e); });
@@ -27,11 +36,13 @@ geotab.addin.request = (elt, service) => {
 
     // subscribe to any click events. Will be fired when user clicks on: device, zone, route, map.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"},"x":1139,"y":282}
-    service.events.attach('click', (e) => { template('click', e); });
+    //service.events.attach('click', (e) => { template('click', e); });
 
     // subscribe to any move events over map.
     // e parameter looks like: {"x":485,"y":205}
     //service.events.attach('move', (e) => { template('move', e); });
+
+    service.events.attach('click', (e) => { getSessionDetails('click', e); });
 
 };
 
