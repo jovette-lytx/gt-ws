@@ -1,9 +1,11 @@
 geotab.addin.request = (elt, service) => {
 
+    // let sessionDetails;
     // service.api.getSession().then((sessionInfo) => {
     //     service.localStorage.set("sessionDetails", sessionInfo)
     //         .then(() => console.log("sessionInfo saved"));
     //     console.log(sessionInfo);
+    //     sessionDetails = sessionInfo;
     // });
 
     // let sessionDetails;
@@ -23,11 +25,9 @@ geotab.addin.request = (elt, service) => {
                 .then(() => console.log("sessionInfo saved"));
             console.log(sessionInfo);
             sessionDetails = sessionInfo;
+            getAuthorization(sessionDetails.sessionId, sessionDetails.userName,
+                sessionDetails.database, sessionDetails.domain);
         });
-        if (sessionDetails)
-            console.log(sessionDetails);
-        else
-            console.log("sessionDetails is null");
     }
 
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
@@ -101,6 +101,7 @@ async function getSession() {
 }
 
 function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
+    console.log("In getAuthorization()");
     let request = new XMLHttpRequest();
     request.onload = function () {
         if (request.readyState === 4) {
