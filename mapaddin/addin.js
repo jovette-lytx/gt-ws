@@ -1,6 +1,5 @@
 geotab.addin.request = (elt, service) => {
 
-    let sessionDetails;
     service.api.getSession().then((sessionInfo) => {
         service.localStorage.set("sessionDetails", sessionInfo)
             .then(() => console.log(sessionInfo));
