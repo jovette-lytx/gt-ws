@@ -6,9 +6,10 @@ geotab.addin.request = (elt, service) => {
     });
 
     elt.innerHTML = `
-        <div style="height:150%; width:100%">
-            <iframe id="addinFrame" style="height:100%; width:100%" src="" >Empty iframe</iframe>
-        </div>`;
+    <div style="height:100%; width:100%">
+        <iframe id="addinFrame" style="height:100%; width:100%" 
+            src="https://jovette-lytx.github.io/mapaddin/authorize.html" ></iframe>
+    </div>`;
 
     let template = (event, data) => {
         var div = document.createElement("DIV");
@@ -44,6 +45,79 @@ geotab.addin.request = (elt, service) => {
 
 };
 
+geotab.addin.lytxVideoAddIn = function(api, state) {
+    return {
+        initialize: function(api, state, callback) {
+            console.log("In initialize state");
+            callback();
+        },
+        focus: function(api, state) {
+            console.log("In focus state");
+            let frame = document.getElementById("addinFrame");
+            window.addEventListener("message", e => {
+                if (e.data === "getSessionInfo") {
+                    api.getSession(function (session) {
+                        session["geoTabBaseUrl"] = window.location.hostname;
+                        frame.contentWindow.postMessage(JSON.stringify(session), "*");
+                    });
+                }
+            }, false);
+        },
+        blur: function(api, state) {
+            console.log("In blur state");
+        }
+    }
+};
+
+function postSessionRequest() {
+    return new Promise((res, rej) => {
+        window.addEventListener("message", function sessionMessenger (e) {
+            if (e.data) {
+                try {
+                    let session = JSON.parse(e.data);
+
+                    if (session.sessionId) {
+                        res(session);
+                        window.removeEventListener("message", sessionMessenger, false);
+                    }
+                } catch (e) {}
+            }
+        }, false);
+
+        if (window.top !== window) {
+            window.top.postMessage("getSessionInfo", validateTargetOrigin());
+
+            // set timeout on waiting session information from main window
+            setTimeout(() => { rej(new Error("Timeout")); }, 5000);
+            return;
+        }
+
+        rej(new Error("Page not inside iframe"));
+    });
+}
+
+function validateTargetOrigin() {
+    try {
+        let hostUrl = document.referrer;
+        if (hostUrl.includes("geotab.com")) {
+            return hostUrl;
+        } else {
+            redirectOnStatusCode(this.status, "Not GeoTab Host Origin");
+        }
+    } catch(e) {
+        redirectOnStatusCode(this.status, e);
+    }
+}
+
+async function getSession() {
+    let sessionObject =
+        await postSessionRequest().then(session => {
+            return session;
+        });
+
+    getAuthorization(sessionObject.sessionId, sessionObject.userName,
+        sessionObject.database, sessionObject.geoTabBaseUrl);
+}
 
 function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
     console.log("In getAuthorization()");
@@ -119,9 +193,7 @@ function redirectOnStatusCode(statusCode, error) {
 function redirectToLytxPlatformPage(action, attributes) {
     console.log("In redirectToLytxPlatformPage()");
 
-    iframe = document.getElementById('addinFrame');
-    const form = iframe.contentWindow.createElement('form');
-    //const form = document.createElement('form');
+    const form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', action);
 
