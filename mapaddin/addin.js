@@ -6,10 +6,10 @@ geotab.addin.request = (elt, service) => {
         console.log(sessionInfo);
     });
 
-    let sessionDetails;
-    service.localStorage.get("sessionDetails").then(val => sessionDetails = val);
-    elt.innerHTML = "sessionId = " + sessionDetails.sessionId;
-    console.log("sessionId = " + sessionDetails.sessionId);
+    // let sessionDetails;
+    // service.localStorage.get("sessionDetails").then(val => sessionDetails = val);
+    // elt.innerHTML = "sessionId = " + sessionDetails.sessionId;
+    // console.log("sessionId = " + sessionDetails.sessionId);
 
     let template = (event, data) => {
         var div = document.createElement("DIV");
