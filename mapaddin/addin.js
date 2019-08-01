@@ -8,7 +8,7 @@ geotab.addin.request = (elt, service) => {
     elt.innerHTML = `
     <div style="height:100%; width:100%">
         <iframe id="addinFrame" style="height:100%; width:100%" 
-            src="https://jovette-lytx.github.io/mapaddin/authorize.html" ></iframe>
+            src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
     </div>`;
 
     let template = (event, data) => {
