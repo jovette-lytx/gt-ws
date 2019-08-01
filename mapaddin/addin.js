@@ -7,12 +7,7 @@ geotab.addin.request = (elt, service) => {
         console.log(sessionInfo);
     });
 
-    elt.innerHTML = `
-        <div style="height:450px; width:100%">
-            <iframe id="addinFrame" style="height:100%; width:100%" 
-                    src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
-        </div>`;
-        
+    elt.innerHTML = "sessionId = " + sessionInfo.sessionId;
     console.log("sessionId = " + sessionInfo.sessionId);
 
     let template = (event, data) => {
