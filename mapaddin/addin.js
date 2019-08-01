@@ -1,13 +1,12 @@
 geotab.addin.request = (elt, service) => {
 
-    var sessionDetails;
     service.api.getSession().then((sessionInfo) => {
-        sessionDetails = sessionInfo;
-        service.localStorage.set("sessionDetails", sessionDetails)
+        service.localStorage.set("sessionDetails", sessionInfo)
             .then(() => console.log("sessionInfo saved"));
-        console.log(sessionDetails);
+        console.log(sessionInfo);
     });
 
+    let sessionDetails = service.localStorage.get("sessionDetails");
     elt.innerHTML = "sessionId = " + sessionDetails.sessionId;
     console.log("sessionId = " + sessionDetails.sessionId);
 
