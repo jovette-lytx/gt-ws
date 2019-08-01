@@ -176,12 +176,15 @@ function redirectOnStatusCode(statusCode, error) {
 
 function redirectToLytxPlatformPage(action, attributes) {
     console.log("In redirectToLytxPlatformPage()");
+
+    iframe = document.getElementById("addinFrame");
+    doc = iframe.contentDocument;
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', action);
 
     const hiddenFields = Object.keys(attributes).map(key => {
-        const hiddenField = this.document.createElement('input');
+        const hiddenField = doc.createElement('input');
         hiddenField.setAttribute("type", "hidden");
         hiddenField.setAttribute("name", key);
         hiddenField.setAttribute("value", attributes[key]);
@@ -191,7 +194,7 @@ function redirectToLytxPlatformPage(action, attributes) {
 
     hiddenFields.forEach(hf => form.appendChild(hf));
 
-    this.document.body.appendChild(form);
+    doc.body.appendChild(form);
     form.submit();
 }
 
