@@ -176,7 +176,7 @@ function redirectToLytxPlatformPage(action, attributes) {
     console.log("In redirectToLytxPlatformPage()");
 
     iframe = document.getElementById("addinFrame");
-    doc = iframe.contentDocument;
+    doc = iframe.contentWindow.document;
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', action);
