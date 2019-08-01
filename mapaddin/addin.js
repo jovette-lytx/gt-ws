@@ -4,18 +4,12 @@ geotab.addin.request = (elt, service) => {
     service.api.getSession().then((sessionInfo) => {
         service.localStorage.set("sessionDetails", sessionInfo)
             .then(() => console.log(sessionInfo));
-        sessionDetails = sessionInfo;
     });
 
     elt.innerHTML = `
         <div style="height:150%; width:100%">
             <iframe id="addinFrame" style="height:100%; width:100%" src="" >Empty iframe</iframe>
         </div>`;
-
-    // let sessionDetails;
-    // service.localStorage.get("sessionDetails").then(val => sessionDetails = val);
-    // elt.innerHTML = "sessionId = " + sessionDetails.sessionId;
-    // console.log("sessionId = " + sessionDetails.sessionId);
 
     let template = (event, data) => {
         var div = document.createElement("DIV");
@@ -51,55 +45,6 @@ geotab.addin.request = (elt, service) => {
 
 };
 
-function postSessionRequest() {
-    return new Promise((res, rej) => {
-        window.addEventListener("message", function sessionMessenger (e) {
-            if (e.data) {
-                try {
-                    let session = JSON.parse(e.data);
-
-                    if (session.sessionId) {
-                        res(session);
-                        window.removeEventListener("message", sessionMessenger, false);
-                    }
-                } catch (e) {}
-            }
-        }, false);
-
-        if (window.top !== window) {
-            window.top.postMessage("getSessionInfo", validateTargetOrigin());
-
-            // set timeout on waiting session information from main window
-            setTimeout(() => { rej(new Error("Timeout")); }, 5000);
-            return;
-        }
-
-        rej(new Error("Page not inside iframe"));
-    });
-}
-
-function validateTargetOrigin() {
-    try {
-        let hostUrl = document.referrer;
-        if (hostUrl.includes("geotab.com")) {
-            return hostUrl;
-        } else {
-            redirectOnStatusCode(this.status, "Not GeoTab Host Origin");
-        }
-    } catch(e) {
-        redirectOnStatusCode(this.status, e);
-    }
-}
-
-async function getSession() {
-    let sessionObject =
-        await postSessionRequest().then(session => {
-            return session;
-        });
-
-    getAuthorization(sessionObject.sessionId, sessionObject.userName,
-        sessionObject.database, sessionObject.geoTabBaseUrl);
-}
 
 function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
     console.log("In getAuthorization()");
@@ -174,15 +119,12 @@ function redirectOnStatusCode(statusCode, error) {
 
 function redirectToLytxPlatformPage(action, attributes) {
     console.log("In redirectToLytxPlatformPage()");
-
-    iframe = document.getElementById("addinFrame");
-    doc = iframe.contentWindow.document;
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', action);
 
     const hiddenFields = Object.keys(attributes).map(key => {
-        const hiddenField = doc.createElement('input');
+        const hiddenField = this.document.createElement('input');
         hiddenField.setAttribute("type", "hidden");
         hiddenField.setAttribute("name", key);
         hiddenField.setAttribute("value", attributes[key]);
@@ -192,7 +134,7 @@ function redirectToLytxPlatformPage(action, attributes) {
 
     hiddenFields.forEach(hf => form.appendChild(hf));
 
-    doc.body.appendChild(form);
+    this.document.body.appendChild(form);
     form.submit();
 }
 
