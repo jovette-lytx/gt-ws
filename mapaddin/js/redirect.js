@@ -46,13 +46,13 @@ function postSessionRequest() {
 }
 
 async function getSession() {
-    let sessionObject =
-        await postSessionRequest().then(session => {
-            return session;
-        });
+    // let sessionObject =
+    //     await postSessionRequest().then(session => {
+    //         return session;
+    //     });
 
-    getAuthorization(sessionObject.sessionId, sessionObject.userName,
-        sessionObject.database, sessionObject.geoTabBaseUrl);
+    // getAuthorization(sessionObject.sessionId, sessionObject.userName,
+    //     sessionObject.database, sessionObject.geoTabBaseUrl);
 }
 
 function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
