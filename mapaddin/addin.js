@@ -17,6 +17,12 @@ geotab.addin.request = (elt, service) => {
         elt.appendChild(div);
     }    
 
+    let sendMessageToChildIframe = (event, data) => {
+        console.log("postToChildFrame() clicked");
+        let iframe = document.getElementById("addinFrame");
+        iframe.contentWindow.postMessage("message", '*');
+    }
+
     // let getSessionDetails = (event, data) => {
     //     service.api.getSession().then((sessionInfo) => {
     //         service.localStorage.set("sessionDetails", sessionInfo);
@@ -53,7 +59,8 @@ geotab.addin.request = (elt, service) => {
     // e parameter looks like: {"x":485,"y":205}
     //service.events.attach('move', (e) => { template('move', e); });
 
-    // service.events.attach('click', (e) => { getSessionDetails('click', e); });
+    //service.events.attach('click', (e) => { getSessionDetails('click', e); });
+    service.events.attach('click', (e) => { sendMessageToChildIframe('click', e); });
 
 };
 

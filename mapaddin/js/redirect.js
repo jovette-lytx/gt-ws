@@ -1,54 +1,18 @@
-﻿function postSessionRequest() {
-    return new Promise((res, rej) => {
-        window.addEventListener("message", function sessionMessenger (e) {
-            console.log("INFO - In postSessionRequest() - Got message: " + e.data);
-            if (e.data) {
-                try {
-                    let session = JSON.parse(e.data);
-                    console.log("Session details: " + session);
-
-                    if (session.sessionId) {
-                        res(session);
-                        window.removeEventListener("message", sessionMessenger, false);
-                    }
-                } catch (e) {}
-            }
-        }, false);
-
-        window.top.postMessage("getSessionInfo", '*');
-
-        // if (window.parent !== window) {
-        //     window.parent.postMessage("getSessionInfo", validateTargetOrigin());
-
-        //     // set timeout on waiting session information from main window
-        //     setTimeout(() => { rej(new Error("Timeout")); }, 5000);
-        //     return;
-        // }
-
-        // rej(new Error("Page not inside iframe"));
-    });
+﻿function bindEvent(element, eventName, eventHandler) {
+    if (element.addEventListener) {
+        console.log("Adding event handler '" + eventName + "'");
+        element.addEventListener(eventName, eventHandler, false);
+    } else if (element.attachEvent) {
+        console.log("Attaching event 'on" + eventName + "'");
+        element.attachEvent('on' + eventName, eventHandler);
+    }
 }
 
-// function validateTargetOrigin() {
-//     try {
-//         let hostUrl = document.referrer;
-//         if (hostUrl.includes("geotab.com")) {
-//             return hostUrl;
-//         } else {
-//             redirectOnStatusCode(this.status, "Not GeoTab Host Origin");
-//         }
-//     } catch(e) {
-//         redirectOnStatusCode(this.status, e);
-//     }
-// }
+bindEvent(window, 'message', function(e) {
+    console.log(e.data);
+});
 
 async function getSession() {
-    let sessionObject =
-        await postSessionRequest().then(session => {
-            console.log("INFO - In redirect.js --> getSession() - Session details: ");
-            console.log(session);
-            return session;
-        });
 
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
         sessionObject.database, sessionObject.geoTabBaseUrl);
