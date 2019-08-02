@@ -1,18 +1,55 @@
-﻿function bindEvent(element, eventName, eventHandler) {
+﻿
+bindEvent(window, 'message', function(e) {
+    console.log(e.data);
+    getAuthorization(sessionObject.sessionId, sessionObject.userName,
+        sessionObject.database, sessionObject.geoTabBaseUrl);
+});
+
+function bindEvent(element, eventName, eventHandler) {
     if (element.addEventListener) {
-        console.log("Adding event handler '" + eventName + "'");
+        console.log("INFO - Adding event handler '" + eventName + "'");
         element.addEventListener(eventName, eventHandler, false);
     } else if (element.attachEvent) {
-        console.log("Attaching event 'on" + eventName + "'");
+        console.log("INFO - Attaching event 'on" + eventName + "'");
         element.attachEvent('on' + eventName, eventHandler);
     }
 }
 
-bindEvent(window, 'message', function(e) {
-    console.log(e.data);
-});
+function postSessionRequest() {
+    return new Promise((res, rej) => {
+        window.addEventListener("message", function sessionMessenger (e) {
+            if (e.data) {
+                try {
+                    this.console.log("INFO - Received message: " + e.data);
+                    let session = JSON.parse(e.data);
+
+                    if (session.sessionId) {
+                        res(session);
+                        window.removeEventListener("message", sessionMessenger, false);
+                    }
+                } catch (e) {
+                    this.console.log("ERROR - Unhandled error in postSessionRequest()");
+                }
+            }
+        }, false);
+
+        if (window.top !== window) {
+            window.top.postMessage("getSessionInfo", validateTargetOrigin());
+
+            // set timeout on waiting session information from main window
+            setTimeout(() => { rej(new Error("Timeout")); }, 5000);
+            return;
+        }
+
+        rej(new Error("ERROR - Page not inside iframe"));
+    });
+}
 
 async function getSession() {
+    let sessionObject =
+        await postSessionRequest().then(session => {
+            return session;
+        });
 
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
         sessionObject.database, sessionObject.geoTabBaseUrl);

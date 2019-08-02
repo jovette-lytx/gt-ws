@@ -18,7 +18,7 @@ geotab.addin.request = (elt, service) => {
     }    
 
     let sendMessageToChildIframe = (event, data) => {
-        console.log("postToChildFrame() clicked");
+        console.log("INFO - postToChildFrame() clicked");
         let iframe = document.getElementById("addinFrame");
         iframe.contentWindow.postMessage("message", '*');
     }
@@ -38,7 +38,7 @@ geotab.addin.request = (elt, service) => {
             service.api.getSession(function (session) {
                 session["geoTabBaseUrl"] = window.location.hostname;
                 iframe.contentWindow.postMessage(JSON.stringify(session), "*");
-                console.log(session);
+                console.log("INFO - Posted message '" + JSON.stringify(session) + "' to element: " + iframe);
             });
         }
     }, false);
