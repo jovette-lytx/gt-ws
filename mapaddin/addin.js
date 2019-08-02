@@ -109,7 +109,7 @@ function validateTargetOrigin() {
     }
 }
 
-async function getSession() {
+function getSession() {
     let sessionObject =
         await postSessionRequest().then(session => {
             return session;
