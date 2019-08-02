@@ -92,6 +92,8 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
 function redirectOnStatusCode(statusCode, error) {
     let errorMessage;
     let errorType;
+
+    console.log(error);
     try {
         errorType = error.type;
         errorMessage = error.message;
