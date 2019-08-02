@@ -15,7 +15,7 @@
             }
         }, false);
 
-        window.parent.postMessage("getSessionInfo", '*');
+        window.top.postMessage("getSessionInfo", '*');
 
         // if (window.parent !== window) {
         //     window.parent.postMessage("getSessionInfo", validateTargetOrigin());
@@ -59,6 +59,7 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
     let url = "https://lytx-geotab-addinservice.prod.ph.lytx.com/api/authorize?sessionId=" + sessionId +
         "&username=" + userName + "&databaseName=" + database +
         "&geoTabBaseUrl=" + geoTabBaseUrl;
+    console.log("INFO - Request URL = " + url);
 
     request.onload = function () {
         if (request.readyState === 4) {

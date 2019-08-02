@@ -6,7 +6,7 @@ geotab.addin.request = (elt, service) => {
     });
 
     elt.innerHTML = `
-    <div style="height:100%; width:100%">
+    <div style="height:450px; width:100%">
         <iframe id="addinFrame" style="height:100%; width:100%" 
             src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
     </div>`;
@@ -17,20 +17,22 @@ geotab.addin.request = (elt, service) => {
         elt.appendChild(div);
     }    
 
-    let getSessionDetails = (event, data) => {
-        service.api.getSession().then((sessionInfo) => {
-            service.localStorage.set("sessionDetails", sessionInfo);
-            getAuthorization(sessionInfo.sessionId, sessionInfo.userName,
-                sessionInfo.database, sessionInfo.domain);
-        });
-    }
+    // let getSessionDetails = (event, data) => {
+    //     service.api.getSession().then((sessionInfo) => {
+    //         service.localStorage.set("sessionDetails", sessionInfo);
+    //         getAuthorization(sessionInfo.sessionId, sessionInfo.userName,
+    //             sessionInfo.database, sessionInfo.domain);
+    //     });
+    // }
 
     let iframe = document.getElementById("addinFrame");
     window.addEventListener("message", e => {
+        console.log("Adding event listener, 'message' ");
         if (e.data === "getSessionInfo") {
             service.api.getSession(function (session) {
                 session["geoTabBaseUrl"] = window.location.hostname;
                 iframe.contentWindow.postMessage(JSON.stringify(session), "*");
+                console.log(session);
             });
         }
     }, false);
@@ -51,7 +53,7 @@ geotab.addin.request = (elt, service) => {
     // e parameter looks like: {"x":485,"y":205}
     //service.events.attach('move', (e) => { template('move', e); });
 
-    service.events.attach('click', (e) => { getSessionDetails('click', e); });
+    // service.events.attach('click', (e) => { getSessionDetails('click', e); });
 
 };
 
