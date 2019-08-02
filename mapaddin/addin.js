@@ -25,6 +25,16 @@ geotab.addin.request = (elt, service) => {
         });
     }
 
+    let iframe = document.getElementById("addinFrame");
+    window.addEventListener("message", e => {
+        if (e.data === "getSessionInfo") {
+            api.getSession(function (session) {
+                session["geoTabBaseUrl"] = window.location.hostname;
+                iframe.contentWindow.postMessage(JSON.stringify(session), "*");
+            });
+        }
+    }, false);
+
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
     service.events.attach('over', (e) => { template('over', e); });
@@ -43,30 +53,6 @@ geotab.addin.request = (elt, service) => {
 
     service.events.attach('click', (e) => { getSessionDetails('click', e); });
 
-};
-
-geotab.addin.lytxVideoAddIn = function(api, state) {
-    return {
-        initialize: function(api, state, callback) {
-            console.log("In initialize state");
-            callback();
-        },
-        focus: function(api, state) {
-            console.log("In focus state");
-            let frame = document.getElementById("addinFrame");
-            window.addEventListener("message", e => {
-                if (e.data === "getSessionInfo") {
-                    api.getSession(function (session) {
-                        session["geoTabBaseUrl"] = window.location.hostname;
-                        frame.contentWindow.postMessage(JSON.stringify(session), "*");
-                    });
-                }
-            }, false);
-        },
-        blur: function(api, state) {
-            console.log("In blur state");
-        }
-    }
 };
 
 function postSessionRequest() {

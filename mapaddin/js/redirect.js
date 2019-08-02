@@ -13,8 +13,8 @@
             }
         }, false);
 
-        if (window.top !== window) {
-            window.top.postMessage("getSessionInfo", validateTargetOrigin());
+        if (window.parent !== window) {
+            window.parent.postMessage("getSessionInfo", validateTargetOrigin());
 
             // set timeout on waiting session information from main window
             setTimeout(() => { rej(new Error("Timeout")); }, 5000);
