@@ -28,7 +28,7 @@ geotab.addin.request = (elt, service) => {
     let iframe = document.getElementById("addinFrame");
     window.addEventListener("message", e => {
         if (e.data === "getSessionInfo") {
-            api.getSession(function (session) {
+            service.api.getSession(function (session) {
                 session["geoTabBaseUrl"] = window.location.hostname;
                 iframe.contentWindow.postMessage(JSON.stringify(session), "*");
             });

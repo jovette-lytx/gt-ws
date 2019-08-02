@@ -25,7 +25,7 @@
         //     return;
         // }
 
-        rej(new Error("Page not inside iframe"));
+        // rej(new Error("Page not inside iframe"));
     });
 }
 
