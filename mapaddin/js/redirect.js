@@ -1,9 +1,11 @@
 ﻿function postSessionRequest() {
     return new Promise((res, rej) => {
         window.addEventListener("message", function sessionMessenger (e) {
+            console.log("INFO - In postSessionRequest() - Got message: " + e.data);
             if (e.data) {
                 try {
                     let session = JSON.parse(e.data);
+                    console.log("Session details: " + session);
 
                     if (session.sessionId) {
                         res(session);
@@ -41,6 +43,8 @@ function validateTargetOrigin() {
 async function getSession() {
     let sessionObject =
         await postSessionRequest().then(session => {
+            console.log("INFO - In redirect.js --> getSession() - Session details: ");
+            console.log(session);
             return session;
         });
 
@@ -50,6 +54,10 @@ async function getSession() {
 
 function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
     let request = new XMLHttpRequest();
+    let url = "https://lytx-geotab-addinservice.prod.ph.lytx.com/api/authorize?sessionId=" + sessionId +
+        "&username=" + userName + "&databaseName=" + database +
+        "&geoTabBaseUrl=" + geoTabBaseUrl;
+
     request.onload = function () {
         if (request.readyState === 4) {
             if (this.status === 200) {
@@ -66,6 +74,8 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
             } else {
                 let response;
                 try {
+                    console.log("ERROR - Request failed.  Error response: ");
+                    console.log(repsonse);
                     response = JSON.parse(this.response);
                 } catch(err) {
                     response = "Unable to parse response. " + err;
@@ -74,10 +84,9 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
             }
         }
     };
-    request.open("GET", "https://lytx-geotab-addinservice.prod.ph.lytx.com/api/authorize?sessionId=" + sessionId +
-        "&username=" + userName + "&databaseName=" + database +
-        "&geoTabBaseUrl=" + geoTabBaseUrl, true);
+    request.open("GET", url, true);
     request.send();
+    console.log("INFO - Authorize request sent to: " + url)
 }
 
 function redirectOnStatusCode(statusCode, error) {
@@ -114,11 +123,15 @@ function redirectOnStatusCode(statusCode, error) {
             window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
         }
     } else {
+        statusCode = "Unknown";
         window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
     }
+    console.log("ERROR - Status Code: " + statusCode);
+    console.log("ERROR - Error message: " + errorMessage);
 }
 
 function redirectToLytxPlatformPage(action, attributes) {
+    console.log("INFO - In redirectToLytxPlatformPage()");
     const form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', action);
