@@ -74,7 +74,7 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
             }
         }
     };
-    request.open("GET", "/api/authorize?sessionId=" + sessionId +
+    request.open("GET", "https://lytx-geotab-addinservice.prod.ph.lytx.com/api/authorize?sessionId=" + sessionId +
         "&username=" + userName + "&databaseName=" + database +
         "&geoTabBaseUrl=" + geoTabBaseUrl, true);
     request.send();
@@ -93,28 +93,28 @@ function redirectOnStatusCode(statusCode, error) {
 
     if (statusCode === 500) {
         if (errorMessage.includes("Lytx")) {
-            window.location = "/errors/lytx500Error.html";
+            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytx500Error.html";
         } else if (errorMessage.includes("GeoTab")) {
-            window.location = "/errors/geotab500Error.html";
+            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/geotab500Error.html";
         } else {
-            window.location = "/errors/loginError.html";
+            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
         }
     } else if (statusCode === 401) {
         if (errorMessage.includes("Lytx")) {
-            window.location = "/errors/lytxAuthError.html";
+            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytxAuthError.html";
         } else if (errorMessage.includes("GeoTab")) {
-            window.location = "/errors/geoTabAuthError.html";
+            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/geoTabAuthError.html";
         } else {
-            window.location = "/errors/loginError.html";
+            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
         }
     } else if (statusCode === 403) {
         if (errorType.includes("UserNotAuthorizedToAccessLvsException")) {
-            window.location = "/errors/lytxAccessRestricted.html";
+            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytxAccessRestricted.html";
         } else {
-            window.location = "/errors/loginError.html";
+            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
         }
     } else {
-        window.location = "/errors/loginError.html";
+        window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
     }
 }
 
