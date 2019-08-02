@@ -37,7 +37,7 @@ function postSessionRequest() {
             window.top.postMessage("getSessionInfo", '*');
 
             // set timeout on waiting session information from main window
-            setTimeout(() => { rej(new Error("Timeout")); }, 5000);
+            setTimeout(() => { rej(new Error("Timeout")); }, 10000);
             return;
         }
 
