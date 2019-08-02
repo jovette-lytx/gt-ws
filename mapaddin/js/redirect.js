@@ -34,7 +34,7 @@ function postSessionRequest() {
         }, false);
 
         if (window.top !== window) {
-            window.top.postMessage("getSessionInfo", validateTargetOrigin());
+            window.top.postMessage("getSessionInfo", '*');
 
             // set timeout on waiting session information from main window
             setTimeout(() => { rej(new Error("Timeout")); }, 5000);
