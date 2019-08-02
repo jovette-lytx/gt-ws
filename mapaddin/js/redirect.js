@@ -15,7 +15,7 @@
             }
         }, false);
 
-        window.parent.postMessage("getSessionInfo", validateTargetOrigin());
+        window.parent.postMessage("getSessionInfo", '*');
 
         // if (window.parent !== window) {
         //     window.parent.postMessage("getSessionInfo", validateTargetOrigin());
