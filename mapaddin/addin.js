@@ -33,8 +33,8 @@ geotab.addin.request = (elt, service) => {
 
     let iframe = document.getElementById("addinFrame");
     window.addEventListener("message", e => {
-        console.log("Adding event listener, 'message' ");
         if (e.data === "getSessionInfo") {
+            console.log("INFO - Received 'getSessionInfo' event ");
             service.api.getSession(function (session) {
                 session["geoTabBaseUrl"] = window.location.hostname;
                 iframe.contentWindow.postMessage(JSON.stringify(session), "*");
@@ -63,97 +63,3 @@ geotab.addin.request = (elt, service) => {
     service.events.attach('click', (e) => { sendMessageToChildIframe('click', e); });
 
 };
-
-function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
-    console.log("In getAuthorization()");
-    let request = new XMLHttpRequest();
-    request.onload = function () {
-        if (request.readyState === 4) {
-            if (this.status === 200) {
-                let response = JSON.parse(this.response);
-                let attributes = [];
-                let name;
-
-                for (name in response) {
-                    if (name !== 'action') {
-                        attributes[name] = response[name];
-                    }
-                }
-                redirectToLytxPlatformPage(response.action, attributes);
-            } else {
-                let response;
-                try {
-                    response = JSON.parse(this.response);
-                } catch(err) {
-                    response = "Unable to parse response. " + err;
-                }
-                redirectOnStatusCode(this.status, response.error);
-            }
-        }
-    };
-    request.open("GET", "https://lytx-geotab-addinservice.prod.ph.lytx.com/api/authorize?sessionId=" + sessionId +
-        "&username=" + userName + "&databaseName=" + database +
-        "&geoTabBaseUrl=" + geoTabBaseUrl, true);
-    request.send();
-}
-
-function redirectOnStatusCode(statusCode, error) {
-    let errorMessage;
-    let errorType;
-    try {
-        errorType = error.type;
-        errorMessage = error.message;
-    } catch (err) {
-        errorType = "GenericError";
-        errorMessage = "Cannot parse error message";
-    }
-
-    if (statusCode === 500) {
-        if (errorMessage.includes("Lytx")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytx500Error.html";
-        } else if (errorMessage.includes("GeoTab")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/geotab500Error.html";
-        } else {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
-        }
-    } else if (statusCode === 401) {
-        if (errorMessage.includes("Lytx")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytxAuthError.html";
-        } else if (errorMessage.includes("GeoTab")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/geoTabAuthError.html";
-        } else {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
-        }
-    } else if (statusCode === 403) {
-        if (errorType.includes("UserNotAuthorizedToAccessLvsException")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytxAccessRestricted.html";
-        } else {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
-        }
-    } else {
-        window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
-    }
-}
-
-function redirectToLytxPlatformPage(action, attributes) {
-    console.log("In redirectToLytxPlatformPage()");
-
-    const form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', action);
-
-    const hiddenFields = Object.keys(attributes).map(key => {
-        const hiddenField = this.document.createElement('input');
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", key);
-        hiddenField.setAttribute("value", attributes[key]);
-
-        return hiddenField;
-    });
-
-    hiddenFields.forEach(hf => form.appendChild(hf));
-
-    this.document.body.appendChild(form);
-    form.submit();
-}
-
