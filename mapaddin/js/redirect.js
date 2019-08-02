@@ -7,7 +7,7 @@ bindEvent(window, 'message', function(e) {
 
 function bindEvent(element, eventName, eventHandler) {
     if (element.addEventListener) {
-        console.log("INFO - Adding event handler '" + eventName + "'");
+        console.log("INFO - Adding event listener '" + eventName + "'");
         element.addEventListener(eventName, eventHandler, false);
     } else if (element.attachEvent) {
         console.log("INFO - Attaching event 'on" + eventName + "'");
