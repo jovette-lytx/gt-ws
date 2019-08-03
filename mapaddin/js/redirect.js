@@ -1,9 +1,9 @@
 ﻿
-bindEvent(window, 'message', function(e) {
-    console.log(e.data);
-    getAuthorization(sessionObject.sessionId, sessionObject.userName,
-        sessionObject.database, sessionObject.geoTabBaseUrl);
-});
+// bindEvent(window, 'message', function(e) {
+//     console.log(e.data);
+//     getAuthorization(sessionObject.sessionId, sessionObject.userName,
+//         sessionObject.database, sessionObject.geoTabBaseUrl);
+// });
 
 function bindEvent(element, eventName, eventHandler) {
     if (element.addEventListener) {

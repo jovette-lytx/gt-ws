@@ -21,8 +21,10 @@ geotab.addin.request = (elt, service) => {
         console.log("INFO - postToChildFrame() clicked");
         let iframe = document.getElementById("addinFrame");
         sessionDetails = service.localStorage.get("sessionDetails");
+        console.log("sessionDetails: " + sessionDetails);
         sessionDetails2 = service.api.getSession();
-        iframe.contentWindow.postMessage("message", '*');
+        console.log("sessionDetails2: " + sessionDetails2);
+        iframe.contentWindow.postMessage(JSON.stringify(sessionDetails), '*');
     }
 
     // let getSessionDetails = (event, data) => {
