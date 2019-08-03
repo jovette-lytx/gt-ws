@@ -22,13 +22,11 @@ geotab.addin.request = (elt, service) => {
         //let iframe = document.getElementById("addinFrame");
 
         service.localStorage.get("sessionDetails")
-            .then(val => console.log("sessionDetails: " + val));
+            .then(val => console.log(val));
             
         service.api.getSession()
-            .then((sessionInfo) => {
-                console.log("sessionDetails2: " + sessionInfo);
+            .then((sessionInfo) => console.log(sessionInfo));
                 //iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), '*');
-        });
     }
 
     // let getSessionDetails = (event, data) => {
