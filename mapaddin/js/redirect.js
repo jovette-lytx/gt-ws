@@ -80,7 +80,7 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
                 let response;
                 try {
                     console.log("ERROR - Request failed.  Error response: ");
-                    console.log(repsonse);
+                    console.log(this.repsonse);
                     response = JSON.parse(this.response);
                 } catch(err) {
                     response = "Unable to parse response. " + err;
