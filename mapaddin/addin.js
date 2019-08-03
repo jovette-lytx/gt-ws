@@ -2,7 +2,8 @@ geotab.addin.request = (elt, service) => {
 
     service.api.getSession().then((sessionInfo) => {
         service.localStorage.set("sessionDetails", sessionInfo)
-            .then(() => console.log(sessionInfo));
+            // .then(() => console.log(sessionInfo))
+            ;
     });
 
     elt.innerHTML = `
@@ -23,13 +24,7 @@ geotab.addin.request = (elt, service) => {
 
         service.localStorage.get("sessionDetails")
             .then((sessionInfo) => {
-                console.log(sessionInfo);
                 iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), '*');
-            });
-            
-        service.api.getSession()
-            .then((sessionInfo) => {
-                console.log(sessionInfo);
             });
     }
 

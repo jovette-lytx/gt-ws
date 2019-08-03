@@ -1,9 +1,17 @@
 ﻿
-// bindEvent(window, 'message', function(e) {
-//     console.log(e.data);
-//     getAuthorization(sessionObject.sessionId, sessionObject.userName,
-//         sessionObject.database, sessionObject.geoTabBaseUrl);
-// });
+geotab.addin.request = (elt, service) => {
+    service.api.getSession().then((sessionInfo) => {
+        service.localStorage.set("sessionDetails", sessionInfo)
+            .then(() => console.log(sessionInfo));
+    });
+}
+
+bindEvent(window, 'message', function(e) {
+    console.log(e);
+    console.log(e.data);
+    // getAuthorization(sessionObject.sessionId, sessionObject.userName,
+    //     sessionObject.database, sessionObject.geoTabBaseUrl);
+});
 
 function bindEvent(element, eventName, eventHandler) {
     if (element.addEventListener) {
