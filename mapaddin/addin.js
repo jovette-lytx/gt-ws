@@ -22,8 +22,8 @@ geotab.addin.request = (elt, service) => {
         let iframe = document.getElementById("addinFrame");
 
         service.localStorage.get("sessionDetails")
-            .then((val) => {
-                console.log(val);
+            .then((sessionInfo) => {
+                console.log(sessionInfo);
                 iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), '*');
             });
             
