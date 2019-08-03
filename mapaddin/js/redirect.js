@@ -1,9 +1,9 @@
 ﻿
 bindEvent(window, 'message', function(e) {
-    console.log(e);
     console.log(e.data);
-    // getAuthorization(sessionObject.sessionId, sessionObject.userName,
-    //     sessionObject.database, sessionObject.geoTabBaseUrl);
+    sessionObject = JSON.parse(e.data);
+    getAuthorization(sessionObject.sessionId, sessionObject.userName,
+        sessionObject.database, sessionObject.geoTabBaseUrl);
 });
 
 function bindEvent(element, eventName, eventHandler) {
