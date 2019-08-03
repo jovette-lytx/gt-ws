@@ -3,7 +3,7 @@ bindEvent(window, 'message', function(e) {
     console.log(e.data);
     sessionObject = JSON.parse(e.data);
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
-        sessionObject.database, sessionObject.geoTabBaseUrl);
+        sessionObject.database, sessionObject.domain);
 });
 
 function bindEvent(element, eventName, eventHandler) {
@@ -61,7 +61,6 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
     let url = "https://lytx-geotab-addinservice.prod.ph.lytx.com/api/authorize?sessionId=" + sessionId +
         "&username=" + userName + "&databaseName=" + database +
         "&geoTabBaseUrl=" + geoTabBaseUrl;
-    console.log("INFO - Request URL = " + url);
 
     request.onload = function () {
         if (request.readyState === 4) {
@@ -79,8 +78,6 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
             } else {
                 let response;
                 try {
-                    console.log("ERROR - Request failed.  Error response: ");
-                    console.log(this.repsonse);
                     response = JSON.parse(this.response);
                 } catch(err) {
                     response = "Unable to parse response. " + err;
