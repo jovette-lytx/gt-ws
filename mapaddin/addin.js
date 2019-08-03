@@ -19,14 +19,18 @@ geotab.addin.request = (elt, service) => {
 
     let sendMessageToChildIframe = (event, data) => {
         console.log("INFO - postToChildFrame() clicked");
-        //let iframe = document.getElementById("addinFrame");
+        let iframe = document.getElementById("addinFrame");
 
         service.localStorage.get("sessionDetails")
-            .then(val => console.log(val));
+            .then((val) => {
+                console.log(val);
+                iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), '*');
+            });
             
         service.api.getSession()
-            .then((sessionInfo) => console.log(sessionInfo));
-                //iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), '*');
+            .then((sessionInfo) => {
+                console.log(sessionInfo);
+            });
     }
 
     // let getSessionDetails = (event, data) => {
