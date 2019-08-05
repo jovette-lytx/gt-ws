@@ -75,7 +75,8 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
                     }
                 }
                 //redirectToLytxPlatformPage(response.action, attributes);
-                redirectToLytxPlatformPage(response.action, attributes);
+                //redirectToLytxPlatformPage_Post(response.action, attributes);
+                redirectToLytxPlatformPage_GetQuery(response.action, attributes);
             } else {
                 let response;
                 try {
@@ -169,4 +170,8 @@ function redirectToLytxPlatformPage_Post(action, attributes) {
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(params);
+}
+
+function redirectToLytxPlatformPage_GetQuery(action, attributes) {
+    this.window.location += "?accessToken=" + attributes['accessToken'] + "&refreshToken" + attributes['refreshToken'];
 }
