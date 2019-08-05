@@ -173,5 +173,6 @@ function redirectToLytxPlatformPage_Post(action, attributes) {
 }
 
 function redirectToLytxPlatformPage_GetQuery(action, attributes) {
-    this.window.location += "?accessToken=" + attributes['accessToken'] + "&refreshToken" + attributes['refreshToken'];
+    let url = attributes['location'] + "?accessToken=" + attributes['accessToken'] + "&refreshToken" + attributes['refreshToken'];
+    this.window.location = url;
 }
