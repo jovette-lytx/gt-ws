@@ -159,7 +159,6 @@ function redirectToLytxPlatformPage(action, attributes) {
 function redirectToLytxPlatformPage_Post(action, attributes) {
     const xhr = new XMLHttpRequest();
     const url = action;
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     var params = 
         "accessToken=" + attributes['accessToken'] +
         "&refreshToken" + attributes['refreshToken'] +
@@ -168,5 +167,6 @@ function redirectToLytxPlatformPage_Post(action, attributes) {
         "&clientId" + attributes['clientId'];
 
     xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(params);
 }
