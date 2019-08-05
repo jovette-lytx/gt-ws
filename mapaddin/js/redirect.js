@@ -75,7 +75,7 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
                     }
                 }
                 //redirectToLytxPlatformPage(response.action, attributes);
-                redirectToLytxPlatformPage_Post(response.action, attributes);
+                redirectToLytxPlatformPage(response.action, attributes);
             } else {
                 let response;
                 try {
