@@ -161,10 +161,10 @@ function redirectToLytxPlatformPage_Post(action, attributes) {
     const url = action;
     var params = 
         "accessToken=" + attributes['accessToken'] +
-        "&refreshToken" + attributes['refreshToken'] +
-        "&location" + attributes['location'] + 
-        "&expirationTime" + attributes['expirationTime'] +
-        "&clientId" + attributes['clientId'];
+        "&refreshToken=" + attributes['refreshToken'] +
+        "&location=" + attributes['location'] + 
+        "&expirationTime=" + attributes['expirationTime'] +
+        "&clientId=" + attributes['clientId'];
 
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
