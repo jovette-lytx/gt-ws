@@ -1,12 +1,10 @@
 geotab.addin.request = (elt, service) => {
 
     service.api.getSession().then((sessionInfo) => {
-        service.localStorage.set("sessionDetails", sessionInfo)
-            // .then(() => console.log(sessionInfo))
-            ;
+        service.localStorage.set("sessionDetails", sessionInfo);
     });
 
-    let locationOrigin = this.window.location.hostname;
+    let locationOrigin = this.document.location.hostname;
 
     elt.innerHTML = `
     <div style="height:450px; width:100%">
