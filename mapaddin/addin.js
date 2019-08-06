@@ -6,6 +6,8 @@ geotab.addin.request = (elt, service) => {
             ;
     });
 
+    let locationOrigin = this.window.location.hostname;
+
     elt.innerHTML = `
     <div style="height:450px; width:100%">
         <iframe id="addinFrame" style="height:100%; width:100%" 
