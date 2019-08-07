@@ -74,9 +74,9 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
                         attributes[name] = response[name];
                     }
                 }
-                redirectToLytxPlatformPage(response.action, attributes);
+                //redirectToLytxPlatformPage(response.action, attributes);
                 //redirectToLytxPlatformPage_Post(response.action, attributes);
-                //redirectToLytxPlatformPage_GetQuery(response.action, attributes);
+                redirectToLytxPlatformPage_GetQuery(response.action, attributes);
             } else {
                 let response;
                 try {
@@ -173,6 +173,6 @@ function redirectToLytxPlatformPage_Post(action, attributes) {
 }
 
 function redirectToLytxPlatformPage_GetQuery(action, attributes) {
-    let url = attributes['location'] + "?accessToken=" + attributes['accessToken'] + "&refreshToken" + attributes['refreshToken'];
+    let url = attributes['location'] + "?accessToken=" + attributes['accessToken'] + "&refreshToken=" + attributes['refreshToken'];
     this.window.location = url;
 }
