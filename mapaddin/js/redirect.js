@@ -174,5 +174,6 @@ function redirectToLytxPlatformPage_Post(action, attributes) {
 
 function redirectToLytxPlatformPage_GetQuery(action, attributes) {
     let url = attributes['location'] + "?accessToken=" + attributes['accessToken'] + "&refreshToken=" + attributes['refreshToken'];
+    console.log("INFO - Redirecting to: " + url)
     this.window.location = url;
 }
