@@ -61,7 +61,7 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
     request.onload = function () {
         if (request.readyState === 4) {
             if (this.status === 200) {
-                let response = JSON.parse(this.response);
+                const response = JSON.parse(this.response);
                 let attributes = [];
                 let name;
 
@@ -125,7 +125,7 @@ function redirectOnStatusCode(statusCode, error) {
 }
 
 function redirectToLytxPlatformPage(action, attributes) {
-    const form = document.createElement("form");
+    const form = this.document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", action);
 
