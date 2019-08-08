@@ -3,7 +3,7 @@ bindEvent(window, "message", function (e) {
     console.log(e.data);
     const sessionObject = JSON.parse(e.data);
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
-        sessionObject.database, sessionObject.domain);
+        sessionObject.database, sessionObject.domain, "mapaddin");
 });
 
 function bindEvent(element, eventName, eventHandler) {
@@ -21,42 +21,52 @@ function postSessionRequest() {
         window.addEventListener("message", function sessionMessenger (e) {
             if (e.data) {
                 try {
-                    this.console.log("INFO - Received message: " + e.data);
-                    let session = JSON.parse(e.data);
+                    const session = JSON.parse(e.data);
 
                     if (session.sessionId) {
                         res(session);
                         window.removeEventListener("message", sessionMessenger, false);
                     }
-                } catch (e) {
-                    this.console.log("ERROR - Unhandled error in postSessionRequest()");
-                }
+                } catch (e) {}
             }
         }, false);
 
-        if (window.parent !== window) {
-            window.parent.postMessage("getSessionInfo", '*');
+        if (window.top !== window) {
+            window.top.postMessage("getSessionInfo", validateTargetOrigin());
 
             // set timeout on waiting session information from main window
-            setTimeout(() => { rej(new Error("Timeout")); }, 10000);
+            setTimeout(() => { rej(new Error("Timeout")); }, 5000);
             return;
         }
 
-        rej(new Error("ERROR - Page not inside iframe"));
+        rej(new Error("Page not inside iframe"));
     });
 }
 
-async function getSession() {
-    // const sessionObject =
-    //     await postSessionRequest().then(session => {
-    //         return session;
-    //     });
-
-    // getAuthorization(sessionObject.sessionId, sessionObject.userName,
-    //     sessionObject.database, sessionObject.geoTabBaseUrl);
+function validateTargetOrigin() {
+    try {
+        const hostUrl = document.referrer;
+        if (hostUrl.includes("geotab.com")) {
+            return hostUrl;
+        } else {
+            redirectOnStatusCode(this.status, "Not GeoTab Host Origin");
+        }
+    } catch(e) {
+        redirectOnStatusCode(this.status, e);
+    }
 }
 
-function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
+async function getSession() {
+    const sessionObject =
+        await postSessionRequest().then(session => {
+            return session;
+        });
+
+    getAuthorization(sessionObject.sessionId, sessionObject.userName,
+        sessionObject.database, sessionObject.geoTabBaseUrl);
+}
+
+function getAuthorization(sessionId, userName, database, geoTabBaseUrl, addinType) {
     const request = new XMLHttpRequest();
     request.onload = function () {
         if (request.readyState === 4) {
@@ -70,7 +80,7 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
                         attributes[name] = response[name];
                     }
                 }
-                redirectToLytxPlatformPage(response.action, attributes);
+                redirectToLytxPlatformPage(response.action, attributes, addinType);
             } else {
                 let response;
                 try {
@@ -124,7 +134,15 @@ function redirectOnStatusCode(statusCode, error) {
     }
 }
 
-function redirectToLytxPlatformPage(action, attributes) {
+function redirectToLytxPlatformPage(action, attributes, addinType = "addin") {
+    if (addinType === "mapaddin") {
+        redirectToLytxPlatformPage_GetQuery(action, attributes);
+    } else {
+        redirectToLytxPlatformPage_FormPost(action, attributes);
+    }
+}
+
+function redirectToLytxPlatformPage_FormPost(action, attributes) {
     const form = this.document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", action);
@@ -144,7 +162,7 @@ function redirectToLytxPlatformPage(action, attributes) {
     form.submit();
 }
 
-function redirectToLytxPlatformPage_Post(action, attributes) {
+function redirectToLytxPlatformPage_AjaxPost(action, attributes) {
     const xhr = new XMLHttpRequest();
     const url = action;
     const params =
