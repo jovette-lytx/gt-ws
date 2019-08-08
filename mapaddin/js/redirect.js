@@ -1,5 +1,5 @@
 ﻿
-bindEvent(window, 'message', function(e) {
+bindEvent(window, "message", function (e) {
     console.log(e.data);
     const sessionObject = JSON.parse(e.data);
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
@@ -8,11 +8,11 @@ bindEvent(window, 'message', function(e) {
 
 function bindEvent(element, eventName, eventHandler) {
     if (element.addEventListener) {
-        console.log("INFO - Adding event listener '" + eventName + "'");
+        console.log(`INFO - Adding event listener '${eventName}'`);
         element.addEventListener(eventName, eventHandler, false);
     } else if (element.attachEvent) {
-        console.log("INFO - Attaching event 'on" + eventName + "'");
-        element.attachEvent('on' + eventName, eventHandler);
+        console.log(`INFO - Attaching event 'on${eventName}'`);
+        element.attachEvent(`on${eventName}`, eventHandler);
     }
 }
 
@@ -58,10 +58,6 @@ async function getSession() {
 
 function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
     const request = new XMLHttpRequest();
-    let url = "https://lytx-geotab-addinservice.prod.ph.lytx.com/api/authorize?sessionId=" + sessionId +
-        "&username=" + userName + "&databaseName=" + database +
-        "&geoTabBaseUrl=" + geoTabBaseUrl;
-
     request.onload = function () {
         if (request.readyState === 4) {
             if (this.status === 200) {
@@ -70,34 +66,29 @@ function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
                 let name;
 
                 for (name in response) {
-                    if (name !== 'action') {
+                    if (name !== "action") {
                         attributes[name] = response[name];
                     }
                 }
-                //redirectToLytxPlatformPage(response.action, attributes);
-                //redirectToLytxPlatformPage_Post(response.action, attributes);
-                redirectToLytxPlatformPage_GetQuery(response.action, attributes);
+                redirectToLytxPlatformPage(response.action, attributes);
             } else {
                 let response;
                 try {
                     response = JSON.parse(this.response);
                 } catch(err) {
-                    response = "Unable to parse response. " + err;
+                    response = `Unable to parse response. ${err}`;
                 }
                 redirectOnStatusCode(this.status, response.error);
             }
         }
     };
-    request.open("GET", url, true);
+    request.open("GET", `/api/authorize?sessionId=${sessionId}&username=${userName}&databaseName=${database}&geoTabBaseUrl=${geoTabBaseUrl}`, true);
     request.send();
-    console.log("INFO - Authorize request sent to: " + url)
 }
 
 function redirectOnStatusCode(statusCode, error) {
     let errorMessage;
     let errorType;
-
-    console.log(error);
     try {
         errorType = error.type;
         errorMessage = error.message;
@@ -108,42 +99,38 @@ function redirectOnStatusCode(statusCode, error) {
 
     if (statusCode === 500) {
         if (errorMessage.includes("Lytx")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytx500Error.html";
+            window.location = "/errors/lytx500Error.html";
         } else if (errorMessage.includes("GeoTab")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/geotab500Error.html";
+            window.location = "/errors/geotab500Error.html";
         } else {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
+            window.location = "/errors/loginError.html";
         }
     } else if (statusCode === 401) {
         if (errorMessage.includes("Lytx")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytxAuthError.html";
+            window.location = "/errors/lytxAuthError.html";
         } else if (errorMessage.includes("GeoTab")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/geoTabAuthError.html";
+            window.location = "/errors/geoTabAuthError.html";
         } else {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
+            window.location = "/errors/loginError.html";
         }
     } else if (statusCode === 403) {
         if (errorType.includes("UserNotAuthorizedToAccessLvsException")) {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/lytxAccessRestricted.html";
+            window.location = "/errors/lytxAccessRestricted.html";
         } else {
-            window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
+            window.location = "/errors/loginError.html";
         }
     } else {
-        statusCode = "Unknown";
-        window.location = "https://lytx-geotab-addinservice.prod.ph.lytx.com/errors/loginError.html";
+        window.location = "/errors/loginError.html";
     }
-    console.log("ERROR - Status Code: " + statusCode);
-    console.log("ERROR - Error message: " + errorMessage);
 }
 
 function redirectToLytxPlatformPage(action, attributes) {
-    console.log("INFO - In redirectToLytxPlatformPage()");
-    const form = this.document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', action);
+    const form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", action);
 
     const hiddenFields = Object.keys(attributes).map(key => {
-        const hiddenField = this.document.createElement('input');
+        const hiddenField = this.document.createElement("input");
         hiddenField.setAttribute("type", "hidden");
         hiddenField.setAttribute("name", key);
         hiddenField.setAttribute("value", attributes[key]);
@@ -160,12 +147,12 @@ function redirectToLytxPlatformPage(action, attributes) {
 function redirectToLytxPlatformPage_Post(action, attributes) {
     const xhr = new XMLHttpRequest();
     const url = action;
-    let params = 
-        "accessToken=" + attributes['accessToken'] +
-        "&refreshToken=" + attributes['refreshToken'] +
-        "&location=" + attributes['location'] + 
-        "&expirationTime=" + attributes['expirationTime'] +
-        "&clientId=" + attributes['clientId'];
+    const params =
+        "accessToken=" + attributes["accessToken"] +
+            "&refreshToken=" + attributes["refreshToken"] +
+            "&location=" + attributes["location"] +
+            "&expirationTime=" + attributes["expirationTime"] +
+            "&clientId=" + attributes["clientId"];
 
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -173,7 +160,7 @@ function redirectToLytxPlatformPage_Post(action, attributes) {
 }
 
 function redirectToLytxPlatformPage_GetQuery(action, attributes) {
-    let url = attributes['location'] + "#access_token=" + attributes['accessToken'] + "&refresh_token=" + attributes['refreshToken'];
-    console.log("INFO - Redirecting to: " + url)
+    const url = attributes["location"] + "#access_token=" + attributes["accessToken"] + "&refresh_token=" + attributes["refreshToken"];
+    console.log(`INFO - Redirecting to: ${url}`);
     this.window.location = url;
 }
