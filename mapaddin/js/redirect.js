@@ -138,7 +138,7 @@ function redirectOnStatusCode(statusCode, error) {
 
 function redirectToLytxPlatformPage(action, attributes) {
     console.log("INFO - In redirectToLytxPlatformPage()");
-    const form = document.createElement('form');
+    const form = this.document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', action);
 
