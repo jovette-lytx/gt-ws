@@ -4,8 +4,6 @@ geotab.addin.request = (elt, service) => {
         service.localStorage.set("sessionDetails", sessionInfo);
     });
 
-    let locationOrigin = this.document.currentScript;
-
     elt.innerHTML = `
     <div style="height:450px; width:100%">
         <iframe id="addinFrame" style="height:100%; width:100%" 
@@ -14,36 +12,28 @@ geotab.addin.request = (elt, service) => {
 
     let template = (event, data) => {
         var div = document.createElement("DIV");
-        div.innerHTML = `<strong>Event:</strong> ${ event }, <strong>data</strong>: ${ JSON.stringify(data) }`;
+        div.innerHTML = `<strong>Event:</strong> ${event}, <strong>data</strong>: ${JSON.stringify(data)}`;
         elt.appendChild(div);
-    }    
+    }
 
     let sendMessageToChildIframe = (event, data) => {
         console.log("INFO - postToChildFrame() clicked");
-        let iframe = document.getElementById("addinFrame");
+        const iframe = document.getElementById("addinFrame");
 
         service.localStorage.get("sessionDetails")
             .then((sessionInfo) => {
-                iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), '*');
+                iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), "*");
             });
     }
 
-    // let getSessionDetails = (event, data) => {
-    //     service.api.getSession().then((sessionInfo) => {
-    //         service.localStorage.set("sessionDetails", sessionInfo);
-    //         getAuthorization(sessionInfo.sessionId, sessionInfo.userName,
-    //             sessionInfo.database, sessionInfo.domain);
-    //     });
-    // }
-
-    let iframe = document.getElementById("addinFrame");
+    const iframe = document.getElementById("addinFrame");
     window.addEventListener("message", e => {
         if (e.data === "getSessionInfo") {
             console.log("INFO - Received 'getSessionInfo' event ");
             service.api.getSession(function (session) {
                 session["geoTabBaseUrl"] = window.location.hostname;
                 iframe.contentWindow.postMessage(JSON.stringify(session), "*");
-                console.log("INFO - Posted message '" + JSON.stringify(session) + "' to element: " + iframe);
+                console.log(`INFO - Posted message '${JSON.stringify(session)}' to element: ${iframe}`);
             });
         }
     }, false);

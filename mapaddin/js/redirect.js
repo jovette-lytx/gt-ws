@@ -1,7 +1,7 @@
 ﻿
 bindEvent(window, 'message', function(e) {
     console.log(e.data);
-    sessionObject = JSON.parse(e.data);
+    const sessionObject = JSON.parse(e.data);
     getAuthorization(sessionObject.sessionId, sessionObject.userName,
         sessionObject.database, sessionObject.domain);
 });
@@ -47,7 +47,7 @@ function postSessionRequest() {
 }
 
 async function getSession() {
-    // let sessionObject =
+    // const sessionObject =
     //     await postSessionRequest().then(session => {
     //         return session;
     //     });
@@ -57,7 +57,7 @@ async function getSession() {
 }
 
 function getAuthorization(sessionId, userName, database, geoTabBaseUrl) {
-    let request = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
     let url = "https://lytx-geotab-addinservice.prod.ph.lytx.com/api/authorize?sessionId=" + sessionId +
         "&username=" + userName + "&databaseName=" + database +
         "&geoTabBaseUrl=" + geoTabBaseUrl;
@@ -160,7 +160,7 @@ function redirectToLytxPlatformPage(action, attributes) {
 function redirectToLytxPlatformPage_Post(action, attributes) {
     const xhr = new XMLHttpRequest();
     const url = action;
-    var params = 
+    let params = 
         "accessToken=" + attributes['accessToken'] +
         "&refreshToken=" + attributes['refreshToken'] +
         "&location=" + attributes['location'] + 
