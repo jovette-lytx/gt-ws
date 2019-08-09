@@ -19,7 +19,6 @@ geotab.addin.request = (elt, service) => {
     let sendMessageToChildIframe = (event, data) => {
         console.log("INFO - postToChildFrame() clicked");
         const iframe = document.getElementById("addinFrame");
-        let poiDetails = JSON.stringify(data);
 
         service.localStorage.get("sessionDetails")
             .then((sessionInfo) => {
@@ -27,7 +26,7 @@ geotab.addin.request = (elt, service) => {
                     {"typeName":"Device",
                         "resultsLimit":1,
                         "search":{
-                            "id":poiDetails.entity.id
+                            "id":data.entity.id
                         }
                     }
                 );
