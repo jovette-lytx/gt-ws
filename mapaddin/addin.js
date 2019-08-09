@@ -29,26 +29,13 @@ geotab.addin.request = (elt, service) => {
                     }
                 }
             ).then((result) => {
-                service.localStorage.get("sessionDetails")
-                .then((sessionInfo) => {
+                service.localStorage.get("sessionDetails").then((sessionInfo) => {
                     sessionInfo["vehicleName"] = result[0].name;
                     iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), "*");
                 });
             });
         }        
     }
-
-    // const iframe = document.getElementById("addinFrame");
-    // window.addEventListener("message", e => {
-    //     if (e.data === "getSessionInfo") {
-    //         console.log("INFO - Received 'getSessionInfo' event ");
-    //         service.api.getSession(function (session) {
-    //             session["geoTabBaseUrl"] = window.location.hostname;
-    //             iframe.contentWindow.postMessage(JSON.stringify(session), "*");
-    //             console.log(`INFO - Posted message '${JSON.stringify(session)}' to element: ${iframe}`);
-    //         });
-    //     }
-    // }, false);
 
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
