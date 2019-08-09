@@ -19,15 +19,18 @@ geotab.addin.request = (elt, service) => {
     let sendMessageToChildIframe = (event, data) => {
         console.log("INFO - postToChildFrame() clicked");
         const iframe = document.getElementById("addinFrame");
-        
-        let vehicleDetails = service.api.call("Get",
+
+        let vehicleDetails;
+        service.api.call("Get",
             {"typeName":"Device",
                 "resultsLimit":1,
                 "search":{
                     "id":data.entity.id
                 }
             }
-        );
+        ).then((result) => {
+            vehicleDetails = result;
+        });
 
         service.localStorage.get("sessionDetails")
             .then((sessionInfo) => {
