@@ -28,10 +28,9 @@ geotab.addin.request = (elt, service) => {
                 }
             }
         ).then((result) => {
-            let vehicleDetails = result;
             service.localStorage.get("sessionDetails")
             .then((sessionInfo) => {
-                sessionInfo["vehicleName"] = vehicleDetails.name;
+                sessionInfo["vehicleName"] = result[0].name;
                 iframe.contentWindow.postMessage(JSON.stringify(sessionInfo), "*");
             });
         });
