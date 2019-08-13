@@ -17,7 +17,7 @@ geotab.addin.request = (elt, service) => {
     }
 
     let sendMessageToChildIframe = (event, data) => {
-        if (event === "click" && data.type === "device") {
+        if (event === "click") {
             console.log("INFO - postToChildFrame() clicked");
             const iframe = document.getElementById("addinFrame");
 
