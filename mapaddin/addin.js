@@ -7,7 +7,7 @@ geotab.addin.request = (elt, service) => {
     elt.innerHTML = `
     <div style="height:450px; width:100%">
         <iframe id="addinFrame" style="height:100%; width:100%" 
-            src="https://jovette-lytx.github.io/gt-ws/mapaddin/authorize.html" ></iframe>
+            src="http://lytx-geotab-addinservice.stg.ph.lytx.com/authorize.html" ></iframe>
     </div>`;
 
     let template = (event, data) => {
@@ -39,11 +39,11 @@ geotab.addin.request = (elt, service) => {
 
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
-    service.events.attach('over', (e) => { template('over', e); });
+    //service.events.attach('over', (e) => { template('over', e); });
 
     // subscribe to any mouseout events. Will be fired when user pointer out of: device, zone, route.
     // e parameter looks like: {"type":"device","entity":{"id":"b2"}}
-    service.events.attach('out', (e) => { template('out', e); });
+    //service.events.attach('out', (e) => { template('out', e); });
 
     // subscribe to any click events. Will be fired when user clicks on: device, zone, route, map.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"},"x":1139,"y":282}
