@@ -7,7 +7,7 @@ geotab.addin.request = (elt, service) => {
     elt.innerHTML = `
     <div style="height:450px; width:100%">
         <iframe id="addinFrame" style="height:100%; width:100%" 
-            src="https://lytx-geotab-addinservice.stg.ph.lytx.com/authorize.html" ></iframe>
+            src="https://lytx-geotab-addinservice.int.ph.lytx.com/authorize-mapaddin.html" ></iframe>
     </div>`;
 
     let template = (event, data) => {
@@ -21,6 +21,7 @@ geotab.addin.request = (elt, service) => {
             console.log("INFO - postToChildFrame() clicked");
             const iframe = document.getElementById("addinFrame");
 
+            template(event, data);
             service.api.call("Get",
                 {"typeName":"Device",
                     "resultsLimit":1,
@@ -37,6 +38,9 @@ geotab.addin.request = (elt, service) => {
         }        
     }
 
+    //service.events.attach('click', (e) => { getSessionDetails('click', e); });
+    service.events.attach('click', (e) => { sendMessageToChildIframe('click', e); });
+
     // subscribe to any mouseover events. Will be fired when user pointer over: device, zone, route.
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
     //service.events.attach('over', (e) => { template('over', e); });
@@ -52,8 +56,5 @@ geotab.addin.request = (elt, service) => {
     // subscribe to any move events over map.
     // e parameter looks like: {"x":485,"y":205}
     //service.events.attach('move', (e) => { template('move', e); });
-
-    //service.events.attach('click', (e) => { getSessionDetails('click', e); });
-    service.events.attach('click', (e) => { sendMessageToChildIframe('click', e); });
 
 };
