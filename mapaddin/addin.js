@@ -7,7 +7,7 @@ geotab.addin.request = (elt, service) => {
     elt.innerHTML = `
     <div style="height:450px; width:100%">
         <iframe id="addinFrame" style="height:100%; width:100%" 
-            src="http://lytx-geotab-addinservice.stg.ph.lytx.com/authorize.html" ></iframe>
+            src="https://lytx-geotab-addinservice.stg.ph.lytx.com/authorize.html" ></iframe>
     </div>`;
 
     let template = (event, data) => {
