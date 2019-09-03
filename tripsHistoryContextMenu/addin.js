@@ -1,4 +1,4 @@
-geotab.addin.request = (elt, service) => {
+geotab.addin.lytxTripsAction = (elt, service) => {
 
 
     let storeTripTimestamp = (event, data) => {
