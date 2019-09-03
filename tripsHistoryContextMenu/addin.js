@@ -10,7 +10,7 @@ geotab.addin.lytxTripsAction = (elt, service) => {
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
     service.events.attach('over', (e) => { storeTripTimestamp('over', e); });
 
-    elt.innerHTML = `<div class="lytxTripsAction">Lytx Trips Histotry Action Menu</div>`
+    elt.innerHTML = `<div class="lytxTripsAction">Lytx Trips Histotry Action Menu</div>`;
 
         let attach = () => {
 
@@ -34,11 +34,11 @@ geotab.addin.lytxTripsAction = (elt, service) => {
             });
         }
 
-        let prev = historyTripsMenu
+        let prev = "historyTripsMenu";
         attach();
         type.addEventListener("change", () => {
             service.actionList.detachMenu(prev);
-            prev = historyTripsMenu;
+            prev = "historyTripsMenu";
             attach();
         }, false);
 
