@@ -30,7 +30,7 @@ geotab.addin.lytxTripsAction = (elt, service) => {
                       data: { data: timestamp || "" } // some data that you need when user clicks on button
                   }]) : [];
                   
-                }
+                });
             });
         }
 
