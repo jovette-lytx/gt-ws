@@ -16,7 +16,7 @@ geotab.addin.lytxTripsAction = (elt, service) => {
 
             // actionList attaches to some map popup menus: zone, route, device, map etc.
             // callback will be called if MyGeotab is about to show particular menu
-            service.actionList.attachMenu(historyTripsMenu, (...rest) => {
+            service.actionList.attachMenu("historyTripsMenu", (...rest) => {
                 console.log(rest);
                 
                 service.localStorage.get("onClickTripTimestamp").then((timestamp) => {
