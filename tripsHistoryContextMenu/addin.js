@@ -1,6 +1,5 @@
 geotab.addin.lytxTripsAction = (elt, service) => {
 
-
     let storeTripTimestamp = (event, data) => {
         if (event === "over") {
             service.localStorage.set("onClickTripTimestamp", data.entity.dateTime);
@@ -11,7 +10,7 @@ geotab.addin.lytxTripsAction = (elt, service) => {
     // e parameter looks like: {"type":"zone","entity":{"id":"b3C3F"}}
     service.events.attach('over', (e) => { storeTripTimestamp('over', e); });
 
-    elt.innerHTML = `<div class="addin"></div>`
+    elt.innerHTML = `<div class="lytxTripsAction">Lytx Trips Histotry Action Menu</div>`
 
         let attach = () => {
 
