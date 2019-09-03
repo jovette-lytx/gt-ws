@@ -36,11 +36,6 @@ geotab.addin.lytxTripsAction = (elt, service) => {
 
         let prev = "historyTripsMenu";
         attach();
-        type.addEventListener("change", () => {
-            service.actionList.detachMenu(prev);
-            prev = "historyTripsMenu";
-            attach();
-        }, false);
 
         // subscribe to events when new button is clicked by user
         service.actionList.attach("Clicked", data => {
