@@ -16,7 +16,7 @@
                     window.addEventListener("message", e => {
                         if (e.data === "getSessionInfo") {
                             api.getSession(function(session) {
-                                session["baseUrl"] = window.location.hostname;
+                                session["geoTabBaseUrl"] = window.location.hostname;
                                 frame.contentWindow.postMessage(JSON.stringify(session), "*");
                             });
                         }
