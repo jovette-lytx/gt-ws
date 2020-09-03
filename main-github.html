@@ -20,8 +20,8 @@
                                 frame.contentWindow.postMessage(JSON.stringify(session), "*");
                             });
                         }
+                        console.log("data from GeoTab: " + JSON.stringify(e));
                     }, false);
-                    console.log("data from GeoTab: " + JSON.stringify(e));
                 },
                 blur: function(api, state) {}
             }
